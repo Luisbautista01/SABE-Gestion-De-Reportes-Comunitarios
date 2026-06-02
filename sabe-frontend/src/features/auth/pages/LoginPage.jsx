@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
-import { FaKey, FaLock, FaSignInAlt } from 'react-icons/fa'
+import { FaKey, FaLock, FaSignInAlt, FaUserShield } from 'react-icons/fa'
 import { roleHome } from '../../../core/domain/session'
 import { authApi } from '../../../infrastructure/http/authApi'
 import { Input } from '../../../shared/components/FormControls'
@@ -11,13 +11,17 @@ export function LoginPage({ saveSession }) {
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', password: '' })
 
+  const signIn = async (credentials) => {
+    const data = await authApi.login(credentials)
+    saveSession(data)
+    toast.success('Sesion iniciada')
+    navigate(roleHome(data.usuario.roles))
+  }
+
   const submit = async (event) => {
     event.preventDefault()
     try {
-      const data = await authApi.login(form)
-      saveSession(data)
-      toast.success('Sesion iniciada')
-      navigate(roleHome(data.usuario.roles))
+      await signIn(form)
     } catch (error) {
       toast.error(error.response?.data?.message || 'No fue posible ingresar')
     }
@@ -25,6 +29,7 @@ export function LoginPage({ saveSession }) {
 
   return (
     <AuthLayout title="Iniciar sesion" subtitle="Ingresa con tus credenciales institucionales o ciudadanas para acceder al panel correspondiente.">
+
       <form className="space-y-4" onSubmit={submit}>
         <Input label="Correo" name="email" setForm={setForm} type="email" value={form.email} />
         <Input label="Contrasena" name="password" setForm={setForm} type="password" value={form.password} />

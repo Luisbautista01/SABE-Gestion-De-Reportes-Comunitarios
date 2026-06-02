@@ -71,6 +71,14 @@ El frontend incluye vistas protegidas segun el rol del usuario:
 - `/funcionario`
 - `/admin`
 
+Rutas publicas de acceso:
+
+- `/login`: inicio de sesion y acceso demo administrador.
+- `/registro/ciudadano`: registro publico para ciudadanos.
+- `/registro/funcionario`: registro publico para funcionarios.
+
+Antes de completar el registro, la interfaz solicita aceptacion de tratamiento de datos personales, uso de cookies tecnicas y una validacion captcha simple.
+
 ## Tecnologias Utilizadas
 
 ### Backend

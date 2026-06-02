@@ -17,9 +17,12 @@ public final class AuthDtos {
             @Email @NotBlank String email,
             @Size(min = 6) String password,
             String telefono,
+            RoleName rol,
             String documento,
             String barrio,
-            String direccion
+            String direccion,
+            String dependencia,
+            String cargo
     ) {
     }
 

@@ -24,7 +24,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={session ? <Navigate to={roleHome(session.usuario.roles)} replace /> : <LoginPage saveSession={saveSession} />} />
-          <Route path="/registro" element={session ? <Navigate to="/ciudadano" replace /> : <RegisterPage saveSession={saveSession} />} />
+          <Route path="/registro" element={<Navigate to="/registro/ciudadano" replace />} />
+          <Route path="/registro/ciudadano" element={session ? <Navigate to="/ciudadano" replace /> : <RegisterPage accountType="CIUDADANO" />} />
+          <Route path="/registro/funcionario" element={session ? <Navigate to="/funcionario" replace /> : <RegisterPage accountType="FUNCIONARIO" />} />
           <Route path="/recuperar" element={<RecoverPage />} />
           <Route
             path="/ciudadano"

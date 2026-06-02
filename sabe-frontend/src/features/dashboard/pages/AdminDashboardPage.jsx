@@ -29,6 +29,12 @@ export function AdminDashboardPage({ session }) {
     setUser({ nombres: '', apellidos: '', email: '', password: '', telefono: '', rol: 'FUNCIONARIO', dependencia: '', cargo: '' })
   }
 
+  const changeStatus = async (id, estado) => {
+    await reportApi.changeStatus(id, { estado, comentario: `Gestionado por administrador ${session.usuario.nombres}` })
+    toast.success('Estado actualizado')
+    load()
+  }
+
   return (
     <DashboardLayout session={session} title="Panel administrador">
       <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
@@ -56,7 +62,7 @@ export function AdminDashboardPage({ session }) {
             </div>
           </form>
         </section>
-        <ReportList reports={reports} title="Gestion global de reportes" />
+        <ReportList reports={reports} title="Gestion global de reportes" onStatus={changeStatus} />
       </div>
     </DashboardLayout>
   )

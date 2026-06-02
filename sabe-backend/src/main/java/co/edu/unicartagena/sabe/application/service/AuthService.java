@@ -49,7 +49,11 @@ public class AuthService {
         if (usuarioRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("El correo ya esta registrado");
         }
-        Rol rol = rolRepository.findByNombre(RoleName.CIUDADANO).orElseThrow();
+        RoleName roleName = request.rol() == null ? RoleName.CIUDADANO : request.rol();
+        if (roleName != RoleName.CIUDADANO && roleName != RoleName.FUNCIONARIO) {
+            throw new IllegalArgumentException("El registro publico solo permite ciudadanos y funcionarios");
+        }
+        Rol rol = rolRepository.findByNombre(roleName).orElseThrow();
         Usuario usuario = Usuario.builder()
                 .nombres(request.nombres())
                 .apellidos(request.apellidos())
@@ -59,12 +63,20 @@ public class AuthService {
                 .roles(Set.of(rol))
                 .build();
         usuarioRepository.save(usuario);
-        ciudadanoRepository.save(Ciudadano.builder()
-                .usuario(usuario)
-                .documento(request.documento())
-                .barrio(request.barrio())
-                .direccion(request.direccion())
-                .build());
+        if (roleName == RoleName.FUNCIONARIO) {
+            funcionarioRepository.save(Funcionario.builder()
+                    .usuario(usuario)
+                    .dependencia(request.dependencia() == null ? "Planeacion municipal" : request.dependencia())
+                    .cargo(request.cargo())
+                    .build());
+        } else {
+            ciudadanoRepository.save(Ciudadano.builder()
+                    .usuario(usuario)
+                    .documento(request.documento())
+                    .barrio(request.barrio())
+                    .direccion(request.direccion())
+                    .build());
+        }
         return new AuthResponse(tokenService.create(usuario), toResponse(usuario));
     }
 
