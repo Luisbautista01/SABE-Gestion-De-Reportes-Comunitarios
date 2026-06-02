@@ -65,18 +65,6 @@ export function RegisterPage({ accountType = 'CIUDADANO' }) {
 
   return (
     <AuthLayout title={copy.title} subtitle={copy.subtitle}>
-      <div className="mb-5 rounded border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950">
-        <div className="flex items-start gap-3">
-          <FaShieldAlt className="mt-1 shrink-0" aria-hidden="true" />
-          <div>
-            <p className="font-bold">Tratamiento de datos y cookies</p>
-            <p className="mt-1 text-emerald-900">
-              SABE usara tus datos para validar tu cuenta, gestionar reportes comunitarios, enviar notificaciones del caso y mantener la seguridad de la plataforma. Las cookies tecnicas permiten conservar la sesion y proteger el acceso.
-            </p>
-          </div>
-        </div>
-      </div>
-
       <form className="grid gap-4 md:grid-cols-2" onSubmit={submit}>
         <Input label="Nombres" name="nombres" setForm={setForm} value={form.nombres} />
         <Input label="Apellidos" name="apellidos" setForm={setForm} value={form.apellidos} />
@@ -111,26 +99,7 @@ export function RegisterPage({ accountType = 'CIUDADANO' }) {
           </label>
         </div>
 
-        <div className="space-y-3 rounded border border-slate-200 bg-slate-50 p-4 md:col-span-2">
-          <label className="flex gap-3 text-sm text-slate-700">
-            <input
-              checked={checks.data}
-              className="mt-1 h-4 w-4"
-              onChange={(event) => setChecks((current) => ({ ...current, data: event.target.checked }))}
-              type="checkbox"
-            />
-            <span>Acepto el tratamiento de mis datos personales para la gestion de mi cuenta y reportes comunitarios.</span>
-          </label>
-          <label className="flex gap-3 text-sm text-slate-700">
-            <input
-              checked={checks.cookies}
-              className="mt-1 h-4 w-4"
-              onChange={(event) => setChecks((current) => ({ ...current, cookies: event.target.checked }))}
-              type="checkbox"
-            />
-            <span>Acepto el uso de cookies tecnicas necesarias para iniciar sesion y usar la plataforma.</span>
-          </label>
-        </div>
+        <LegalDocuments checks={checks} setChecks={setChecks} />
 
         <button
           className="inline-flex items-center justify-center rounded bg-emerald-800 px-4 py-3 font-bold text-white hover:bg-emerald-900 disabled:cursor-not-allowed disabled:bg-slate-400 md:col-span-2"
@@ -152,5 +121,74 @@ export function RegisterPage({ accountType = 'CIUDADANO' }) {
         </Link>
       </div>
     </AuthLayout>
+  )
+}
+
+function LegalDocuments({ checks, setChecks }) {
+  return (
+    <section className="rounded border border-emerald-200 bg-emerald-50 p-4 md:col-span-2">
+      <div className="flex items-start gap-3 text-emerald-950">
+        <FaShieldAlt className="mt-1 shrink-0" aria-hidden="true" />
+        <div>
+          <p className="font-bold">Documentos para leer antes del registro</p>
+          <p className="mt-1 text-sm text-emerald-900">
+            Revisa el tratamiento de datos y la politica de cookies. Al final puedes marcar las aceptaciones requeridas para crear la cuenta.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 lg:grid-cols-2">
+        <article className="rounded border border-white bg-white p-4">
+          <h2 className="text-sm font-black text-slate-900">Tratamiento de datos personales</h2>
+          <div className="mt-3 max-h-44 overflow-y-auto pr-2 text-sm leading-6 text-slate-700">
+            <p>
+              SABE recopila nombres, apellidos, correo, telefono y datos asociados al rol de usuario para crear la cuenta, validar identidad operativa y permitir el uso de los modulos de reportes comunitarios.
+            </p>
+            <p className="mt-3">
+              La informacion registrada se usa para gestionar reportes, consultar avances, asignar responsables, enviar notificaciones del caso, mantener trazabilidad y proteger la seguridad de la plataforma.
+            </p>
+            <p className="mt-3">
+              Los datos no se usan para fines comerciales. El usuario puede solicitar revision, actualizacion o eliminacion conforme a las reglas administrativas aplicables y a la operacion del sistema.
+            </p>
+          </div>
+        </article>
+
+        <article className="rounded border border-white bg-white p-4">
+          <h2 className="text-sm font-black text-slate-900">Uso de cookies tecnicas</h2>
+          <div className="mt-3 max-h-44 overflow-y-auto pr-2 text-sm leading-6 text-slate-700">
+            <p>
+              SABE utiliza almacenamiento local y cookies tecnicas necesarias para conservar la sesion, recordar el estado de autenticacion y aplicar controles de acceso segun el rol del usuario.
+            </p>
+            <p className="mt-3">
+              Estas cookies no tienen fines publicitarios. Su funcion es permitir una navegacion segura, prevenir accesos no autorizados y mejorar la continuidad del servicio durante el uso de la aplicacion.
+            </p>
+            <p className="mt-3">
+              Si se rechaza este uso, el registro y el inicio de sesion no pueden completarse porque la plataforma no podria mantener una sesion segura.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div className="mt-4 space-y-3 rounded border border-emerald-100 bg-white p-4">
+        <label className="flex gap-3 text-sm text-slate-700">
+          <input
+            checked={checks.data}
+            className="mt-1 h-4 w-4"
+            onChange={(event) => setChecks((current) => ({ ...current, data: event.target.checked }))}
+            type="checkbox"
+          />
+          <span>Lei y acepto el tratamiento de mis datos personales para la gestion de mi cuenta y reportes comunitarios.</span>
+        </label>
+        <label className="flex gap-3 text-sm text-slate-700">
+          <input
+            checked={checks.cookies}
+            className="mt-1 h-4 w-4"
+            onChange={(event) => setChecks((current) => ({ ...current, cookies: event.target.checked }))}
+            type="checkbox"
+          />
+          <span>Lei y acepto el uso de cookies tecnicas necesarias para iniciar sesion y usar la plataforma.</span>
+        </label>
+      </div>
+    </section>
   )
 }

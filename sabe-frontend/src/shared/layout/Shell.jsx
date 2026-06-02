@@ -5,8 +5,6 @@ import {
   FaSignInAlt,
   FaSignOutAlt,
   FaTachometerAlt,
-  FaUserPlus,
-  FaUserTie
 } from 'react-icons/fa'
 
 import { roleHome } from '../../core/domain/session'
@@ -81,21 +79,6 @@ export function Shell({ session, logout, children }) {
                     Ingresar
                   </Link>
 
-                  <Link
-                    to="/registro/ciudadano"
-                    className="flex items-center gap-2 rounded-lg bg-emerald-700 px-4 py-2 font-semibold text-white hover:bg-emerald-800"
-                  >
-                    <FaUserPlus />
-                    Ciudadano
-                  </Link>
-
-                  <Link
-                    to="/registro/funcionario"
-                    className="flex items-center gap-2 rounded-lg border border-emerald-700 px-4 py-2 font-semibold text-emerald-800 hover:bg-emerald-50"
-                  >
-                    <FaUserTie />
-                    Funcionario
-                  </Link>
                 </>
               )}
             </div>

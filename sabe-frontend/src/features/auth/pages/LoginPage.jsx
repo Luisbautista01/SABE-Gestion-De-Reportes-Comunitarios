@@ -7,6 +7,8 @@ import { authApi } from '../../../infrastructure/http/authApi'
 import { Input } from '../../../shared/components/FormControls'
 import { AuthLayout } from '../../../shared/layout/AuthLayout'
 
+const adminDemo = { email: 'admin@sabe.gov.co', password: 'Sabe1234' }
+
 export function LoginPage({ saveSession }) {
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', password: '' })
@@ -27,8 +29,33 @@ export function LoginPage({ saveSession }) {
     }
   }
 
+  const loginAsAdminDemo = async () => {
+    try {
+      setForm(adminDemo)
+      await signIn(adminDemo)
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'No fue posible ingresar con la cuenta demo')
+    }
+  }
+
   return (
     <AuthLayout title="Iniciar sesion" subtitle="Ingresa con tus credenciales institucionales o ciudadanas para acceder al panel correspondiente.">
+      <div className="mb-5 rounded border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
+        <div className="flex items-start gap-3">
+          <FaUserShield className="mt-1 shrink-0" aria-hidden="true" />
+          <div>
+            <p className="font-bold">Cuenta demo administrador</p>
+            <p className="mt-1">Usala para revisar la gestion global de reportes, usuarios internos y estadisticas.</p>
+            <button
+              className="mt-3 inline-flex items-center rounded bg-amber-700 px-4 py-2 font-bold text-white hover:bg-amber-800"
+              onClick={loginAsAdminDemo}
+              type="button"
+            >
+              Entrar como admin demo
+            </button>
+          </div>
+        </div>
+      </div>
 
       <form className="space-y-4" onSubmit={submit}>
         <Input label="Correo" name="email" setForm={setForm} type="email" value={form.email} />
